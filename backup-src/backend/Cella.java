@@ -4,20 +4,31 @@ import utility.C;
 public class Cella {
 	private int valore;
 	private boolean[] pos;
-	private int possibili=9;
+	private int possibili;
 
 	private final C coord;
 
-	public Cella(int x, int y){
-		valore=0;
-		rendiTuttoPossibile();
+	public Cella(int x, int y, int val) {
+		if(val<1||val>9) {
+			valore=0;
+			rendiTuttoPossibile();
+		}
+		else{
+			valore=val;
+		}
+
 
 		this.coord=new C(x,y);
 	}
 
-	/**creo e rendo tutto vero array possibilit�**/
-	private void rendiTuttoPossibile() {
+	public Cella(int x, int y){
+		this(x, y, 0);
+	}
 
+
+
+	/**creo e rendo tutto vero array possibilita'**/
+	private void rendiTuttoPossibile() {
 		pos=new boolean[9];
 
 		for(int i=0; i<9; i++) {
@@ -25,18 +36,6 @@ public class Cella {
 		}
 	}
 
-	public Cella(int x, int y, int val) {
-		if(val<1||val>9) {
-			valore=0;
-			rendiTuttoPossibile();
-
-			System.err.println("Valore in cella <0 o >9");
-		}
-		else valore=val;
-
-
-		this.coord=new C(x,y);
-	}
 
 	/**Inserire numero da 1 a 9
 	 * In caso di problema ritorna errore
@@ -63,17 +62,17 @@ public class Cella {
 
 		setPossibile(index, val);
 		if(possibili==1)
-			setValore(findUnoPossibile());
+			setValore(findFirstPossibile());
 	}
 
-	private int findUnoPossibile() {
+	private int findFirstPossibile() {
 		for(int i=1; i<=9; i++) {
 			if(getPossibile(i)) return i;
 		}
 		return 0;
 	}
 
-	/**Set il valore se non gi� settato (da 1 a 9, 0 inutile)
+	/**Set il valore se non gia' settato (da 1 a 9, 0 inutile)
 	 * @throws Exception **/
 	private void setValore(int index) throws Exception {
 		if(index<0||index>9)
