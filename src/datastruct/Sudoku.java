@@ -73,12 +73,11 @@ public class Sudoku extends SudokuSets implements Runnable{
 	}
 
 	public void debug(){
-		for(CellsGroup tmp: cellsGroup){
-			//System.out.println(""+tmp);
-		}
-		for(SyncedGroup tmp: groupsSynced){
+		for(CellsGroup tmp: cellsGroup)
 			System.out.println(""+tmp);
-		}
+		for(SyncedGroup tmp: groupsSynced)
+			System.out.println(""+tmp);
+
 		Cell[][] allCells=new Cell[9][9];
 		for(int x=0; x<9; x++)
 			for(int y=0; y<9; y++)
