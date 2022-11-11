@@ -17,9 +17,8 @@ public class FrameIO implements ActionListener{
 	public FrameIO() {
 		initGui();
 
-		//TODO Remove
+		/*TODO Remove
 		//EASY
-		/*
 		int m[][]={
 			{0,0,5,  0,0,0,  0,4,0},
 			{0,0,4,  0,0,3,  5,0,8},
@@ -132,60 +131,11 @@ public class FrameIO implements ActionListener{
 					sudokuField[x][y].setText(map[x][y].getValue()+"");
 			}
 		}
-		debug(map);
-
 	}
 
 
 	//MAIN
 	public static void main(String[] args) {
 		new FrameIO();
-	}
-
-	public void debug(Cell[][] map){
-		System.out.println();
-		for(int y=0; y<9; y++){
-			for(int x=0; x<9; x++){
-				for(int i=1; i<=3; i++){
-					if(map[x][y].isPossible(i)){
-						System.out.print(i);
-					}
-					else {
-						System.out.print("-");
-					}
-				}
-				System.out.print("    ");
-			}
-			System.out.println();
-			for(int x=0; x<9; x++){
-				for(int i=4; i<=6; i++){
-					if(map[x][y].isPossible(i)){
-						System.out.print(i);
-					}
-					else {
-						System.out.print("-");
-					}
-				}
-				System.out.print("    ");
-			}
-			System.out.println();
-			for(int x=0; x<9; x++){
-				for(int i=7; i<=9; i++){
-					if(map[x][y].isPossible(i)){
-						System.out.print(i);
-					}
-					else {
-						System.out.print("-");
-					}
-				}
-				System.out.print("    ");
-			}
-			if(y%3==2){
-				System.out.println();
-			}
-			System.out.println();
-			System.out.println();
-		}
-		System.out.println("-----------------------------------------------------");
 	}
 }

@@ -10,7 +10,7 @@ public class SudokuSets {
 	protected ArrayList<SyncedGroup> groupsSynced=new ArrayList<>();
 	protected TreeMap<Coord, Cell> cells=new TreeMap<>();
 
-	protected SudokuSets(Cell[][] allCells){ //TODO ADD CELLS
+	protected SudokuSets(Cell[][] allCells){
 		for(int x=0; x<allCells.length; x++){
 			for(int y=0; y<allCells[x].length; y++){
 				this.cells.put(new Coord(x, y), allCells[x][y]);
@@ -43,7 +43,7 @@ public class SudokuSets {
 
 				CellsGroup sync1=tmp1.minus(tmp2), sync2=tmp2.minus(tmp1);
 				//if no empty or full group
-				if(sync1!=null && sync2!=null && tmp1.getSize()!=sync1.getSize() && tmp2.getSize()!=sync2.getSize())
+				if(tmp1.getSize()!=0 && tmp2.getSize()!=0 && tmp1.getSize()!=sync1.getSize() && tmp2.getSize()!=sync2.getSize())
 					groupsSynced.add(new SyncedGroup(sync1, sync2));
 			}
 		}

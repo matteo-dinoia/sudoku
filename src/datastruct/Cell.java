@@ -48,8 +48,8 @@ public class Cell {
 
 	//SETTER AND GETTER  -------------------------------------------
 	public boolean isPossible(int num){
-		if(num<1 && num>Sudoku.NUM_POSSIBILITY)
-			throw new Error("Error in cell: trying to get possibility of invalid value");
+		if(num<1 || num>Sudoku.NUM_POSSIBILITY)
+			throw new Error("Error in cell: trying to get possibility of invalid value"+num);
 
 		if(possibility==null)
 			return value==num;
@@ -59,7 +59,7 @@ public class Cell {
 
 	public boolean setPossible(int num, boolean possible){
 		if(num<1 || num>Sudoku.NUM_POSSIBILITY)
-			throw new Error("Error in cell: trying to get possibility of invalid value");
+			throw new Error("Error in cell: trying to get possibility of invalid value"+num);
 
 		if(!isValueSet()){
 			if(possibility[num-1]!=possible){

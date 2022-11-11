@@ -73,15 +73,35 @@ public class Sudoku extends SudokuSets implements Runnable{
 	}
 
 	public void debug(){
+		//PRINT GROUP AND SYNC
 		for(CellsGroup tmp: cellsGroup)
 			System.out.println(""+tmp);
 		for(SyncedGroup tmp: groupsSynced)
 			System.out.println(""+tmp);
 
+		//CREATE MAP
 		Cell[][] allCells=new Cell[9][9];
 		for(int x=0; x<9; x++)
 			for(int y=0; y<9; y++)
 				allCells[x][y]=cells.get(new Coord(x,y));
+
+		//PRINT MAP
+		for(int y=0; y<9; y++){
+			for(int x=0; x<9; x++){
+				for(int pos=1; pos<=9; pos++){
+					System.out.print(allCells[x][y].isPossible(pos)?pos:" ");
+				}
+				if(x==2||x==5) System.out.print("||");
+				else System.out.print("|");
+			}
+
+			if(y==2||y==5)System.out.print(
+				"\n--------------------------------------------------------------------------------------------");
+			if(y!=8)System.out.print(
+				"\n--------------------------------------------------------------------------------------------");
+			System.out.println();
+		}
+
 		f.setMap(allCells);
 	}
 }

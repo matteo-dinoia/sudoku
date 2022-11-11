@@ -18,9 +18,9 @@ public class SyncedGroup {
 
 			//remove to resync
 			if(!g1Contains && g2Contains)
-				group2.removePossibility(checkVal);
+				somethingChanged|=group2.removePossibility(checkVal);
 			else if(g1Contains && !g2Contains)
-				group1.removePossibility(checkVal);
+				somethingChanged|=group1.removePossibility(checkVal);
 		}
 
 		return somethingChanged;

@@ -60,51 +60,23 @@ public class CellsGroup {
 		Set<Cell> res=new HashSet<>();
 		res.addAll(this.cells);
 		res.removeAll(tmp2.cells);
-		return new CellsGroup(null, type);
-
-		/*CellsGroup tmp1=this;
-		int counter=0;
-
-		//COUNT ELEMENT
-		for(Cell elementIn1:tmp1.cells){
-			boolean found=false;
-			for(Cell elementIn2:tmp2.cells){
-				if(elementIn1==elementIn2)
-					found=true;
-			}
-			if(!found)
-				counter++;
-		}
-		if(counter==0) return null;
-
-		//CREATE ARRAY
-		Cell res[]=new Cell[counter];
-		counter=0;
-		for(Cell elementIn1:tmp1.cells){
-			boolean found=false;
-			for(Cell elementIn2:tmp2.cells){
-				if(elementIn1==elementIn2)
-					found=true;
-			}
-			if(!found)
-				res[counter++]=elementIn1;
-		}
-
-
-		return new CellsGroup(res, TYPE_SYNC);*/
+		return new CellsGroup(res, type);
 	}
 
 	public boolean containsValueOrPossibility(int value){
 		for(Cell tmp : cells)
-			if(tmp.getValue()==value ||tmp.isPossible(value))
+			if(tmp.getValue()==value || tmp.isPossible(value))
 				return true;
 
 		return false;
 	}
 
-	public void removePossibility(int value){
+	public boolean removePossibility(int value){
+		boolean somethingChanged=false;
 		for(Cell tmp : cells)
-			tmp.setPossible(value, false);
+			somethingChanged|=tmp.setPossible(value, false);
+
+		return somethingChanged;
 	}
 
 	public int getSize(){
