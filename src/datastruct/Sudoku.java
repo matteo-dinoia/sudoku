@@ -23,14 +23,14 @@ public class Sudoku extends SudokuSets implements Runnable{
 			res.addRectangleGroup(new Rect(0, i, 8, i), CellsGroup.TYPE_LINE);
 		}
 
-		//Row and column
+		//Block
 		for(int x=0; x<3; x++)
 			for(int y=0; y<3; y++)
 				res.addRectangleGroup(new Rect(x*3, y*3, (x+1)*3-1, (y+1)*3-1), CellsGroup.TYPE_BLOCK);
 
 		res.createSyncedBlocks();
 
-		res.debug();
+		//res.debug();
 		return res;
 	}
 
@@ -54,7 +54,7 @@ public class Sudoku extends SudokuSets implements Runnable{
 				somethingChanged=tmp.checkUnicityAndSetValue()||somethingChanged;
 
 			//Synced block
-			for(SyncedGroups tmp:groupsSynced)
+			for(SyncedGroup tmp:groupsSynced)
 				somethingChanged=tmp.checkSyncAndSetValue()||somethingChanged;
 		}
 
@@ -74,6 +74,9 @@ public class Sudoku extends SudokuSets implements Runnable{
 
 	public void debug(){
 		for(CellsGroup tmp: cellsGroup){
+			//System.out.println(""+tmp);
+		}
+		for(SyncedGroup tmp: groupsSynced){
 			System.out.println(""+tmp);
 		}
 		Cell[][] allCells=new Cell[9][9];

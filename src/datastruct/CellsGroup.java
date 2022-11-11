@@ -1,12 +1,16 @@
 package datastruct;
 
-public class CellsGroup {
-	public Cell cells[];
-	public static final int TYPE_LINE=1, TYPE_BLOCK=2, TYPE_SYNC=3;
-	public int type;
+import java.util.*;
 
-	public CellsGroup(Cell cells[], int type){
-		this.cells=cells;
+public class CellsGroup {
+	private Set<Cell> cells=new HashSet<>();
+	public static final int TYPE_LINE=1, TYPE_BLOCK=2, TYPE_SYNC=3;
+	private int type;
+
+
+	public CellsGroup(Set<Cell> cells, int type){
+		if(cells!=null)
+			this.cells.addAll(cells);
 		this.type=type;
 	}
 
@@ -46,23 +50,30 @@ public class CellsGroup {
 	@Override
 	public String toString(){
 		String res="Cells (type="+type+") group contains\n";
-		for(int i=0; i<cells.length; i++){
-			res+="\t"+cells[i].toString();
-		}
+		for(Cell tmp : cells)
+			res+="\t\t"+tmp.toString();
+
 		return res;
 	}
 
 	public CellsGroup minus(CellsGroup tmp2) {
-		CellsGroup tmp1=this;
+		Set<Cell> res=new HashSet<>();
+		res.addAll(this.cells);
+		res.removeAll(tmp2.cells);
+		return new CellsGroup(null, type);
+
+		/*CellsGroup tmp1=this;
 		int counter=0;
 
 		//COUNT ELEMENT
 		for(Cell elementIn1:tmp1.cells){
+			boolean found=false;
 			for(Cell elementIn2:tmp2.cells){
 				if(elementIn1==elementIn2)
-					continue;
+					found=true;
 			}
-			counter++;
+			if(!found)
+				counter++;
 		}
 		if(counter==0) return null;
 
@@ -70,14 +81,37 @@ public class CellsGroup {
 		Cell res[]=new Cell[counter];
 		counter=0;
 		for(Cell elementIn1:tmp1.cells){
+			boolean found=false;
 			for(Cell elementIn2:tmp2.cells){
 				if(elementIn1==elementIn2)
-					continue;
+					found=true;
 			}
-			res[counter++]=elementIn1;
+			if(!found)
+				res[counter++]=elementIn1;
 		}
 
 
-		return new CellsGroup(res, TYPE_SYNC);
+		return new CellsGroup(res, TYPE_SYNC);*/
+	}
+
+	public boolean containsValueOrPossibility(int value){
+		for(Cell tmp : cells)
+			if(tmp.getValue()==value ||tmp.isPossible(value))
+				return true;
+
+		return false;
+	}
+
+	public void removePossibility(int value){
+		for(Cell tmp : cells)
+			tmp.setPossible(value, false);
+	}
+
+	public int getSize(){
+		return cells.size();
+	}
+
+	public int getType() {
+		return type;
 	}
 }

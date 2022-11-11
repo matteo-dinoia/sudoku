@@ -3,10 +3,8 @@ package datastruct;
 import java.util.Arrays;
 
 public class Cell {
-	private int value;
+	private int value, x, y;
 	private boolean possibility[];
-	private int y;
-	private int x;
 
 	public Cell(int x, int y){ this(x, y, 0);}
 

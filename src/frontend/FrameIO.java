@@ -85,6 +85,8 @@ public class FrameIO implements ActionListener{
 		for(int y=0; y<9; y++) {
 			for(int x=0; x<9; x++) {
 				sudokuField[x][y]=new JTextField(3);
+				if((y/3+x/3)%2!=0)
+					sudokuField[x][y].setBackground(Color.LIGHT_GRAY);
 				griglia.add(sudokuField[x][y]);
 			}
 		}

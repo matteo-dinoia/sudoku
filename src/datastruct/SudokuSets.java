@@ -7,7 +7,7 @@ import utility.Rect;
 public class SudokuSets {
 	public final static int NUM_POSSIBILITY=9;
 	protected ArrayList<CellsGroup> cellsGroup=new ArrayList<>();
-	protected ArrayList<SyncedGroups> groupsSynced=new ArrayList<>();
+	protected ArrayList<SyncedGroup> groupsSynced=new ArrayList<>();
 	protected TreeMap<Coord, Cell> cells=new TreeMap<>();
 
 	protected SudokuSets(Cell[][] allCells){ //TODO ADD CELLS
@@ -19,17 +19,15 @@ public class SudokuSets {
 	}
 
 	public void addRectangleGroup(Rect rect, int type){
-		Cell[] listGroup=new Cell[rect.getAreaMarginIncluded()];
-		int counter=0;
+		Set<Cell> listGroup=new HashSet<>();
+
 		for(int y=rect.getTop(); y<=rect.getBottom(); y++){
 			for(int x=rect.getLeft(); x<=rect.getRight(); x++){
 				Cell tmp=cells.get(new Coord(x,y));
-				if(tmp==null){
+				if(tmp==null)
 					throw new Error("Error in SudokuSets cell in group doesn't exist");
-					//TODO not error
-				}
 
-				listGroup[counter++]=tmp;
+				listGroup.add(tmp);
 			}
 		}
 
@@ -40,11 +38,13 @@ public class SudokuSets {
 	public void createSyncedBlocks(){
 		for(CellsGroup tmp1:cellsGroup){
 			for(CellsGroup tmp2:cellsGroup){
-				if(tmp1.type!=tmp2.type){
-					CellsGroup sync1=tmp1.minus(tmp2), sync2=tmp2.minus(tmp1);
-					if(sync1!=null && sync2!=null)
-						groupsSynced.add(new SyncedGroups(sync1, sync2));
-				}
+				if(tmp1.getType()==tmp2.getType())
+					continue; //ignore equals
+
+				CellsGroup sync1=tmp1.minus(tmp2), sync2=tmp2.minus(tmp1);
+				//if no empty or full group
+				if(sync1!=null && sync2!=null && tmp1.getSize()!=sync1.getSize() && tmp2.getSize()!=sync2.getSize())
+					groupsSynced.add(new SyncedGroup(sync1, sync2));
 			}
 		}
 	}
