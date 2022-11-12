@@ -3,12 +3,9 @@ package frontend;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import datastruct.*;
 
-import datastruct.Cell;
-import datastruct.Sudoku;
-import utility.Rect;
-
-public class FrameIO implements ActionListener, MouseListener, KeyListener{
+public class FrameIO implements MouseListener, KeyListener{
 	private static final int GAP=2;
 	private JFrame frame=new JFrame();
 	private JPanel btnRisolvi=new JPanel();
@@ -39,8 +36,6 @@ public class FrameIO implements ActionListener, MouseListener, KeyListener{
 		sudokuField[3][8].setText(""+5);
 		sudokuField[5][8].setText(""+9);
 
-
-		//frame.setSize(280, 300);
 		frame.setFocusTraversalKeysEnabled(false); //for getting tab
 		frame.addKeyListener(this);
 		frame.pack();
@@ -85,15 +80,6 @@ public class FrameIO implements ActionListener, MouseListener, KeyListener{
 
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		if(event.getActionCommand().equals("Solve")) {
-			//disable button and run
-			btnRisolvi.setEnabled(false);
-
-		}
-	}
-
 
 	//Setto o getto car delle
 	private int[][] getMap() {
@@ -113,14 +99,13 @@ public class FrameIO implements ActionListener, MouseListener, KeyListener{
 
 		return map;
 	}
-
-	public void setMap(Cell[][] map) {
+	public void setMap(int[][] map) {
 		for(int y=0; y<9; y++) {
 			for(int x=0; x<9; x++) {
-				if(map[x][y].getValue()==0)
+				if(map[x][y]==0)
 					sudokuField[x][y].setText("_");
 				else
-					sudokuField[x][y].setText(map[x][y].getValue()+"");
+					sudokuField[x][y].setText(map[x][y]+"");
 			}
 		}
 	}
@@ -165,6 +150,8 @@ public class FrameIO implements ActionListener, MouseListener, KeyListener{
 		selection=newSelection;
 	}
 
+	@Override public void keyReleased(KeyEvent arg0) {}
+	@Override public void keyTyped(KeyEvent event) {}
 	@Override public void keyPressed(KeyEvent event) {
 		switch(event.getKeyCode()){
 			case KeyEvent.VK_UP:
@@ -200,11 +187,7 @@ public class FrameIO implements ActionListener, MouseListener, KeyListener{
 
 	}
 
-	@Override public void keyReleased(KeyEvent arg0) {}
 
-	@Override public void keyTyped(KeyEvent event) {
-
-	}
 
 
 }

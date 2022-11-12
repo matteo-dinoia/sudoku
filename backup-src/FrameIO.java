@@ -8,7 +8,6 @@ import datastruct.Cell;
 import datastruct.Sudoku;
 
 public class FrameIO implements ActionListener{
-
 	private JFrame frame=new JFrame();
 	private JButton btnRisolvi=new JButton("Risolvi");
 	private JTextField[][] sudokuField=new JTextField[9][9];
@@ -17,48 +16,28 @@ public class FrameIO implements ActionListener{
 	public FrameIO() {
 		initGui();
 
-		/*TODO Remove
-		//EASY
-		int m[][]={
-			{0,0,5,  0,0,0,  0,4,0},
-			{0,0,4,  0,0,3,  5,0,8},
-			{0,6,8,  0,0,4,  3,0,1},
-
-			{0,0,0,  6,8,0,  0,3,0},
-			{0,0,2,  0,0,0,  8,0,0},
-			{0,3,0,  0,2,9,  0,0,0},
-
-			{5,0,7,  2,0,0,  1,8,0},
-			{6,0,9,  5,0,0,  4,0,0},
-			{0,8,0,  0,0,0,  2,0,0}
-		};
-		for(int x=0; x<9; x++){
-			for(int y=0; y<9; y++){
-				sudokuField[y][x].setText(""+m[x][y]);
-			}
-		}*/
 		//ULTRA EXTREME
-
 		sudokuField[0][0].setText(""+8);
 		sudokuField[1][0].setText(""+6);
 		sudokuField[4][0].setText(""+2);
 		sudokuField[3][1].setText(""+7);
 		sudokuField[7][1].setText(""+5);
 		sudokuField[8][1].setText(""+9);
-
+		//--
 		sudokuField[4][3].setText(""+6);
 		sudokuField[6][3].setText(""+8);
 		sudokuField[1][4].setText(""+4);
 		sudokuField[2][5].setText(""+5);
 		sudokuField[3][5].setText(""+3);
 		sudokuField[8][5].setText(""+7);
-
+		//--
 		sudokuField[1][7].setText(""+2);
 		sudokuField[6][7].setText(""+6);
 		sudokuField[2][8].setText(""+7);
 		sudokuField[3][8].setText(""+5);
 		sudokuField[5][8].setText(""+9);
 
+		//Parameters
 		frame.setSize(225, 250);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

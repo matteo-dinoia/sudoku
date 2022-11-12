@@ -55,7 +55,7 @@ public class Sudoku extends SudokuSets implements Runnable{
 		Cell actualCell=null;
 		int possibility=Sudoku.NUM_POSSIBILITY;
 		while(!isSolved()){
-			debug();
+			updateResult();
 
 
 			//CHOICE
@@ -86,8 +86,8 @@ public class Sudoku extends SudokuSets implements Runnable{
 
 	private void oneIterationSolver(){
 		boolean somethingChanged=true;
-		int counter=0; //TODO remove
-		while(somethingChanged && counter<=10000){ //TODO CHANGE CONDITION TO &&
+		int counter=0;
+		while(somethingChanged && counter<=10000){
 			somethingChanged=false;
 			counter++;
 
@@ -107,40 +107,35 @@ public class Sudoku extends SudokuSets implements Runnable{
 
 	@Override
 	public void run() {
-		try{
-			startSolver();
-		}catch(Error e){
-			e.printStackTrace();
-		}
+		startSolver();
+		updateResult();
+	}
 
-		debug();
+	private void updateResult(){
+		//CREATE MAP
+		int[][] allCells=new int[9][9];
+		for(int x=0; x<9; x++)
+			for(int y=0; y<9; y++)
+				allCells[x][y]=cells.get(new Coord(x,y)).getValue();
+
+		f.setMap(allCells);
+		//System.out.print("1 Ciclo completato");
+		//debug();
 	}
 
 	public void debug(){
-		System.out.println("LOL");
-
-		//CREATE MAP
-		Cell[][] allCells=new Cell[9][9];
-		for(int x=0; x<9; x++)
-			for(int y=0; y<9; y++)
-				allCells[x][y]=cells.get(new Coord(x,y));
-
-		f.setMap(allCells);
-
-		/*
+	/*
 		//PRINT GROUP AND SYNC
 		for(CellsGroup tmp: cellsGroup)
 			System.out.println(""+tmp);
 		for(SyncedGroup tmp: groupsSynced)
 			System.out.println(""+tmp);
 
-
-
 		//PRINT MAP
 		for(int y=0; y<9; y++){
 			for(int x=0; x<9; x++){
 				for(int pos=1; pos<=9; pos++){
-					System.out.print(allCells[x][y].isPossible(pos)?pos:" ");
+					System.out.print(cells.get(new Coord(x,y)).isPossible(pos)?pos:" ");
 				}
 				if(x==2||x==5) System.out.print("||");
 				else System.out.print("|");
@@ -151,6 +146,7 @@ public class Sudoku extends SudokuSets implements Runnable{
 			if(y!=8)System.out.print(
 				"\n--------------------------------------------------------------------------------------------");
 			System.out.println();
-		}*/
+		}
+		*/
 	}
 }
