@@ -6,11 +6,7 @@ import javax.swing.*;
 import datastruct.*;
 
 public class FrameIO implements MouseListener, KeyListener{
-	/*public final static Color LIGHT_GRAY=new Color(220, 220, 220),
-		LIGHTER_COLOR=new Color(180, 180, 180),
-		BTN_COLOR=new Color(1, 180, 180),
-		BTN_COLOR_DISABLE=new Color(140, 140, 140),
-		CELL_COLOR_SELECTED=new Color(100, 250, 255);*/
+	//Color by: https://www.canva.com/colors/color-palettes/ice-infinity/
 	public final static Color LIGHT_GRAY=Color.decode("#B7CFDC"),
 		LIGHTER_COLOR=Color.decode("#D9E4EC"),
 		CELL_COLOR_SELECTED=Color.decode("#6AABD2"),
