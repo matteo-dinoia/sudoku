@@ -55,7 +55,7 @@ public class Sudoku extends SudokuSets implements Runnable{
 		Cell actualCell=null;
 		int possibility=Sudoku.NUM_POSSIBILITY;
 		while(!isSolved()){
-			updateResult();
+			updateResult(false, null);
 
 
 			//CHOICE
@@ -107,18 +107,23 @@ public class Sudoku extends SudokuSets implements Runnable{
 
 	@Override
 	public void run() {
-		startSolver();
-		updateResult();
+		try{
+			startSolver();
+			updateResult(true, null);
+		}catch(Error e){
+			updateResult(false, e.getMessage());
+		}
+
 	}
 
-	private void updateResult(){
+	private void updateResult(boolean solved, String errorString){
 		//CREATE MAP
 		int[][] allCells=new int[9][9];
 		for(int x=0; x<9; x++)
 			for(int y=0; y<9; y++)
 				allCells[x][y]=cells.get(new Coord(x,y)).getValue();
 
-		f.setMap(allCells);
+		f.putData(allCells, solved, errorString);
 		//System.out.print("1 Ciclo completato");
 		//debug();
 	}
