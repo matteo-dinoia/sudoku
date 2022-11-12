@@ -6,39 +6,19 @@ import javax.swing.*;
 
 import datastruct.Cell;
 import datastruct.Sudoku;
+import utility.Rect;
 
-public class FrameIO implements ActionListener{
-
+public class FrameIO implements ActionListener, MouseListener, KeyListener{
+	private static final int GAP=2;
 	private JFrame frame=new JFrame();
-	private JButton btnRisolvi=new JButton("Risolvi");
-	private JTextField[][] sudokuField=new JTextField[9][9];
+	private JPanel btnRisolvi=new JPanel();
+	private JLabel[][] sudokuField=new JLabel[9][9];
 
 
 	public FrameIO() {
 		initGui();
 
-		/*TODO Remove
-		//EASY
-		int m[][]={
-			{0,0,5,  0,0,0,  0,4,0},
-			{0,0,4,  0,0,3,  5,0,8},
-			{0,6,8,  0,0,4,  3,0,1},
-
-			{0,0,0,  6,8,0,  0,3,0},
-			{0,0,2,  0,0,0,  8,0,0},
-			{0,3,0,  0,2,9,  0,0,0},
-
-			{5,0,7,  2,0,0,  1,8,0},
-			{6,0,9,  5,0,0,  4,0,0},
-			{0,8,0,  0,0,0,  2,0,0}
-		};
-		for(int x=0; x<9; x++){
-			for(int y=0; y<9; y++){
-				sudokuField[y][x].setText(""+m[x][y]);
-			}
-		}*/
 		//ULTRA EXTREME
-
 		sudokuField[0][0].setText(""+8);
 		sudokuField[1][0].setText(""+6);
 		sudokuField[4][0].setText(""+2);
@@ -59,46 +39,58 @@ public class FrameIO implements ActionListener{
 		sudokuField[3][8].setText(""+5);
 		sudokuField[5][8].setText(""+9);
 
-		frame.setSize(225, 250);
-		frame.setResizable(false);
+
+		//frame.setSize(280, 300);
+		frame.setFocusTraversalKeysEnabled(false); //for getting tab
+		frame.addKeyListener(this);
+		frame.pack();
+		//frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 
 	public void initGui() {
-		//panel and layout
-		JPanel principale=new JPanel();
-		frame.add(principale);
-		principale.setLayout(new BorderLayout());
 
-		//button
-		btnRisolvi.setActionCommand("Risolvi");
-		btnRisolvi.addActionListener(this);
-		principale.add(btnRisolvi, BorderLayout.SOUTH);
-
-		//matrix of number
-		JPanel griglia=new JPanel();
-		griglia.setLayout(new GridLayout(9, 9));
-		principale.add(griglia, BorderLayout.NORTH);
+		//Rows
+		JPanel rows=new JPanel();
+		rows.setSize(300, 300);
+		rows.setMinimumSize(rows.getSize());
+		rows.setPreferredSize(rows.getSize());
+		rows.setLayout(new GridLayout(10, 1, GAP, GAP));
+		frame.add(rows);
 
 		for(int y=0; y<9; y++) {
+			//colon
+			JPanel colons=new JPanel();
+			colons.setLayout(new GridLayout(1, 9, GAP, GAP));
+			rows.add(colons);
+
 			for(int x=0; x<9; x++) {
-				sudokuField[x][y]=new JTextField(3);
-				if((y/3+x/3)%2!=0)
-					sudokuField[x][y].setBackground(Color.LIGHT_GRAY);
-				griglia.add(sudokuField[x][y]);
+				sudokuField[x][y]=new JLabel(" ");
+				sudokuField[x][y].setVerticalAlignment(JLabel.CENTER);
+				JPanel p=new JPanel();
+				p.add(sudokuField[x][y]);
+				p.addMouseListener(this);
+				if((y/3+x/3)%2!=0) p.setBackground(new Color(180, 180, 180));
+				else p.setBackground(new Color(220, 220, 220));
+				colons.add(p);
 			}
 		}
 
+		//Btn
+		btnRisolvi.addMouseListener(this);
+		btnRisolvi.add(new JLabel("TESTasdsaad"));
+		btnRisolvi.setBackground(Color.RED);
+		rows.add(btnRisolvi);
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if(event.getActionCommand().equals("Risolvi")) {
+		if(event.getActionCommand().equals("Solve")) {
 			//disable button and run
 			btnRisolvi.setEnabled(false);
-			new Thread(Sudoku.getNormalSudoku(this, getMap())).start();
+
 		}
 	}
 
@@ -138,4 +130,81 @@ public class FrameIO implements ActionListener{
 	public static void main(String[] args) {
 		new FrameIO();
 	}
+
+	private boolean solving=false;
+	public void solve(){
+		if(solving)
+			return;
+
+		new Thread(Sudoku.getNormalSudoku(this, getMap())).start();
+		solving=true;
+
+	}
+
+	private JPanel selection;
+	private Color oldColorSelection;
+	@Override public void mouseEntered(MouseEvent arg0) {}
+	@Override public void mouseExited(MouseEvent arg0) {}
+	@Override public void mousePressed(MouseEvent arg0) {}
+	@Override public void mouseReleased(MouseEvent arg0) {}
+	@Override public void mouseClicked(MouseEvent event) {
+		JPanel newSelection=((JPanel)event.getComponent());
+
+		if(newSelection==btnRisolvi){
+			newSelection.setBackground(new Color(200, 200, 200));
+			solve();
+			return;
+		}
+
+		//old reset
+		if(selection!=null)
+			selection.setBackground(oldColorSelection);
+		//new
+		oldColorSelection=newSelection.getBackground();
+		newSelection.setBackground(new Color(100, 250, 255));
+		selection=newSelection;
+	}
+
+	@Override public void keyPressed(KeyEvent event) {
+		switch(event.getKeyCode()){
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_KP_UP:
+			case KeyEvent.VK_W:
+				System.out.println("TEST1");
+				break;
+			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_KP_RIGHT:
+			case KeyEvent.VK_TAB:
+			case KeyEvent.VK_SPACE:
+			case KeyEvent.VK_D:
+				System.out.println("TEST2");
+				break;
+			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_KP_DOWN:
+			case KeyEvent.VK_S:
+				System.out.println("TEST3");
+				break;
+			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_KP_LEFT:
+			case KeyEvent.VK_A:
+				System.out.println("TEST4");
+				break;
+			case KeyEvent.VK_ENTER:
+				System.out.println("TEST5");
+				break;
+			case KeyEvent.VK_BACK_SPACE:
+			case KeyEvent.VK_CANCEL:
+				System.out.println("TEST6");
+				break;
+		}
+
+	}
+
+	@Override public void keyReleased(KeyEvent arg0) {}
+
+	@Override public void keyTyped(KeyEvent event) {
+
+	}
+
+
 }
