@@ -25,7 +25,24 @@ public class FrameIO implements MouseListener, KeyListener{
 	public FrameIO() {
 		initGui();
 
-		//ULTRA EXTREME
+		//DEBUG
+		if(Sudoku.DEBUG)
+			debugInitialData();
+
+		//listener
+		frame.setFocusTraversalKeysEnabled(false); //for getting tab
+		frame.addKeyListener(this);
+
+		//dimension
+		frame.pack();
+		frame.setMinimumSize(frame.getSize());
+		frame.setPreferredSize(frame.getSize());
+
+		//default operation
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+	public void debugInitialData(){
 		sudokuField[0][0].setValue(8);
 		sudokuField[1][0].setValue(6);
 		sudokuField[4][0].setValue(2);
@@ -45,19 +62,6 @@ public class FrameIO implements MouseListener, KeyListener{
 		sudokuField[2][8].setValue(7);
 		sudokuField[3][8].setValue(5);
 		sudokuField[5][8].setValue(9);
-
-		//listener
-		frame.setFocusTraversalKeysEnabled(false); //for getting tab
-		frame.addKeyListener(this);
-
-		//dimension
-		frame.pack();
-		frame.setMinimumSize(frame.getSize());
-		frame.setPreferredSize(frame.getSize());
-
-		//default operation
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
 	}
 	public void initGui() {
 

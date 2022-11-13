@@ -6,6 +6,7 @@ import utility.Rect;
 
 public class SudokuSets {
 	public static int NUM_POSSIBILITY=9;
+	public static boolean DEBUG=false;
 	protected ArrayList<CellsGroup> cellsGroup=new ArrayList<>();
 	protected ArrayList<SyncedGroup> groupsSynced=new ArrayList<>();
 	protected TreeMap<Coord, Cell> cells=new TreeMap<>();

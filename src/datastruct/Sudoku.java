@@ -6,7 +6,7 @@ import utility.Coord;
 import utility.Rect;
 
 public class Sudoku extends SudokuSets implements Runnable{
-	FrameIO f;
+	private FrameIO f;
 	public static Sudoku getNormalSudoku(FrameIO f, int cellsValue[][]){
 		Sudoku res;
 
@@ -124,12 +124,14 @@ public class Sudoku extends SudokuSets implements Runnable{
 				allCells[x][y]=cells.get(new Coord(x,y)).getValue();
 
 		f.putData(allCells, solved, errorString);
-		//System.out.print("1 Ciclo completato");
-		//debug();
+		if(DEBUG){
+			System.out.print("1 Ciclo completato");
+			debug();
+		}
+
 	}
 
 	public void debug(){
-	/*
 		//PRINT GROUP AND SYNC
 		for(CellsGroup tmp: cellsGroup)
 			System.out.println(""+tmp);
@@ -152,6 +154,5 @@ public class Sudoku extends SudokuSets implements Runnable{
 				"\n--------------------------------------------------------------------------------------------");
 			System.out.println();
 		}
-		*/
 	}
 }
